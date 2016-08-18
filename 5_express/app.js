@@ -5,35 +5,37 @@ app = express();
 app.use(logger('dev'));
 app.use(express.static(__dirname + '/public'));
 app.use(function(req,res,next){
-console.log('my custom middleware2')
+	console.log('custom middleware')
 	next();
 });
 
-
-app.get('/download',function(req,res){
-res.sendfile(__dirname + '/download/app.zip');
-});
-
-
 app.get('/',function(req,res){
-res.send('hello world');
+	res.send('welcome page');
 });
 
 app.get('/about',function(req,res){
-res.send('about this page');
+	res.send('about page');
 });
 
 app.get('/users/:name?',function(req,res){
-if(req.params.name){
-res.send('hello,' + req.params.name);
-}else{
-	res.send('who ?');
-}
+	if(req.params.name){
+		res.send('hello,' + req.params.name);
+	}else{
+		res.send('who are you ?');
+	}
 });
 
 app.get('/items/:id([0-9]+)?',function(req,res){
-res.send('item no: ' + req.params.id);
+	if(req.params.id){
+		res.send('id is ' + req.params.id);
+	}else{
+		res.send('No id...');
+	}
+});
+
+app.get('/download/app.zip',function(req,res){
+	res.sendfile(__dirname + '/download/app.zip');
 });
 
 app.listen(3000);
-console.log('server listening ...')
+console.log('server started ...')
