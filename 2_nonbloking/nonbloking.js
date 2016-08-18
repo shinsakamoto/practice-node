@@ -1,11 +1,26 @@
-console.log("non bloking");
+function heavyTask(sec , msg){
+	var start = new Date().getTime();
+	while(new Date().getTime() < start + (sec * 1000));
+	console.log(msg);
+}
 
-setTimeout(function(){
-	console.log("4. hello");
-},1000);
-console.log("1. world");
+console.log("1.");
 
-console.log("2. bloking");
-var start = new Date().getTime();
-while(new Date().getTime() < start + 2000);
-console.log("3. hello world");
+// non blocking
+setTimeout(function(){heavyTask(1,'6.');},1000);
+
+console.log("2.");
+
+// non blocking
+setTimeout(function(){heavyTask(1,'8.');},1001);
+
+// non blocking
+console.log("3.");
+
+// non blocking
+setTimeout(function(){heavyTask(1,'7.');},1000);
+
+// blocking
+heavyTask(1,'4.');
+
+console.log("5.");
