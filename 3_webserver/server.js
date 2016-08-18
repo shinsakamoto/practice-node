@@ -8,7 +8,7 @@ posts = [];
 
 console.log(setting);
 
-function renderFrom(posts , res){
+function renderHTML(posts , res){
 	var data = ejs.render(template , {
 		posts : posts,
 	});
@@ -32,10 +32,10 @@ server.on('request',function(req,res){
 				var query = qs.parse(req.data);
 				console.log(query);
 				posts.push(query.name);
-				renderFrom(posts,res);
+				renderHTML(posts,res);
 		});
 	}else{
-		renderFrom(posts , res);
+		renderHTML(posts , res);
 	}
 });
 
