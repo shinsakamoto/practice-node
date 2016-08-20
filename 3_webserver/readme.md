@@ -103,7 +103,7 @@ server.on('request',function(req,res){
 </html>
 ```
 
-## querystringモジュールを使ってformのデータを取得する
+## querystringモジュールを使ってPOSTデータを取得する
 ```javascript
 var qs = require('querystring');
 ```
