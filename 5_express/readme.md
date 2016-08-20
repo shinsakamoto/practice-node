@@ -92,3 +92,81 @@ app.use(function(req,res,next){
 	next();
 });
 ```
+
+# app.param
+URLのパラメーター取得時の共通処理
+```javascript
+app.param('id',function(req,res,next,id){
+	console.log('id param ' + id);
+	var users = {100:'A',200:'B',300:'C'};
+	req.params.name = users[id];
+	next();
+});
+app.get('/manage/:id([0-9]+)?',function(req,res){
+	if(req.params.id){
+		res.send('name is ' + req.params.name + ' id is ' + req.params.id );
+	}else{
+		res.send('No id...');
+	}
+});
+```
+
+## body-parserモジュールを使ってPOSTデータを取得する
+```
+npm install body-parser
+```
+```javascript
+var bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
+app.post('/add',function(req,res){
+	res.send(req.body.name);
+});
+```
+
+public_modules/post.html
+```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<title>POST</title>
+	<meta charset="utf-8">
+</head>
+<body>
+<form method="post" action="add">
+	<input type="text" name="name">
+	<button type='submit' name='action' value='send'>Post</button>
+</body>
+</html>
+```
+
+## ejsを使ったテンプレート
+```
+npm install ejs
+```
+```javascript
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.get('/',function(req,res){
+	res.render('index',{title:'Welcome',message:'Welcome !!'});
+});
+```
+views/index.ejs
+```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<title><%=title%></title>
+	<meta charset="utf-8">
+</head>
+<body>
+<h1><%=message%><h1>
+</body>
+</html>
+```
+
+## PUT,ELETEを使う（REST APIの実装）
+参考：
+http://coenraets.org/blog/2012/10/creating-a-rest-api-using-node-js-express-and-mongodb/

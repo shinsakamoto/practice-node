@@ -1,0 +1,9 @@
+<%- include('../header' , {title:'New Article'}) %>
+
+<form method="post" action="/blog/create">
+	<div>Title: <input type="text" name="title"></div>
+	<div>Content: <br/><textarea cols="100" rows="20" name="content"></textarea></div>
+	<button type='submit' name='action' value='send'>Save</button>
+</form>
+
+<% include ../footer %>

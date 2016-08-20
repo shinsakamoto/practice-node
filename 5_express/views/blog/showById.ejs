@@ -1,0 +1,12 @@
+<%- include('../header' , {title:'Blog Article'}) %>
+
+[<a href="/blog/<%=article.id%>/edit">Edit</a>]
+<form method="post" action="/blog/<%=article.id%>">
+	<button type='submit' name='action' value='delete'>Delete</button>
+	<input type="hidden" name="_method" value="delete">
+	<input type="hidden" name="id" value="<%=article.id%>">
+</form>
+<h1><%=article.title%><h1>
+<p><%=article.content%></p>
+
+<% include ../footer %>

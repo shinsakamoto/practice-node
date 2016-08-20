@@ -1,0 +1,21 @@
+<%- include('../header' , {title:'Blog'}) %>
+
+<h1>Articles<h1>
+<ul>
+<% for(var i=0;i<articles.length;i++){%>
+<li>
+	<a href="/blog/<%=articles[i].id%>"><%=articles[i].title%></a>
+	[<a href="/blog/<%=articles[i].id%>/edit">Edit</a>]
+	<form method="post" action="/blog/<%=articles[i].id%>">
+		<button type='submit' name='action' value='delete'>Delete</button>
+		<input type="hidden" name="_method" value="delete">
+		<input type="hidden" name="id" value="<%=articles[i].id%>">
+	</form>
+
+</li>
+<%}%>
+</ul>
+
+<a href="/blog/new">new article</a>
+
+<% include ../footer %>
