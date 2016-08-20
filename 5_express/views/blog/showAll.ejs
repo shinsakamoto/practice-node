@@ -9,7 +9,7 @@
 	<form method="post" action="/blog/<%=articles[i].id%>">
 		<button type='submit' name='action' value='delete'>Delete</button>
 		<input type="hidden" name="_method" value="delete">
-		<input type="hidden" name="id" value="<%=articles[i].id%>">
+		<input type="hidden" name="_csrf" value="<%=csrfToken%>">
 	</form>
 
 </li>

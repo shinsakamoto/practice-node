@@ -2,8 +2,9 @@ var express = require('express');
 var logger = require('morgan');
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser')
+var csrf = require('csurf');
 var blog = require('./routes/blog');
-
 
 
 app = express();
@@ -11,10 +12,22 @@ app = express();
 // view engine setup
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+//CSRF
+app.use(cookieParser())
+app.use(csrf({ cookie: true }))
+
+// error handler for CSRF Token
+app.use(function (err, req, res, next) {
+  if (err.code !== 'EBADCSRFTOKEN') return next(err)
+  // handle CSRF token errors here
+  res.status(403)
+  res.send('form tampered with')
+})
+
+
 app.use(express.static(__dirname + '/public'));
 app.use(function(req,res,next){
 	console.log('custom middleware')
@@ -30,14 +43,17 @@ app.use(methodOverride(function(req, res){
   }
 }));
 
+
 // blog service routing
-app.get('/blog/', blog.showAll);
+app.get('/blog/',blog.showAll);
 app.get('/blog/new', blog.new);
 app.post('/blog/create', blog.create);
 app.get('/blog/:id/edit', blog.editById);
 app.get('/blog/:id', blog.showById);
 app.put('/blog/:id', blog.update);
 app.delete('/blog/:id', blog.delete);
+// error handler for blog
+app.use(blog.errorHandler);
 
 // post sample
 app.post('/add',function(req,res){
